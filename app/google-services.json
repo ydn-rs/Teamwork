@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "997137779172",
+    "project_id": "teamwork-cd9e5",
+    "storage_bucket": "teamwork-cd9e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997137779172:android:d1d4de42386362a3311ff1",
+        "android_client_info": {
+          "package_name": "ru.yudin_r.teamwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "997137779172-lbq1r9omoqe93ujm5vri8cl3mgbigk29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9CN2bZ6NvbYvhNs-ftd6Tn4Qfi1e-PMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "997137779172-lbq1r9omoqe93ujm5vri8cl3mgbigk29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
