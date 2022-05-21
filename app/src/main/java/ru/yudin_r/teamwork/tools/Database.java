@@ -1,6 +1,7 @@
 package ru.yudin_r.teamwork.tools;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import ru.yudin_r.teamwork.BoardActivity;
+import ru.yudin_r.teamwork.EmailActivity;
 import ru.yudin_r.teamwork.InviteUserActivity;
 import ru.yudin_r.teamwork.MainActivity;
 import ru.yudin_r.teamwork.ManageBoardActivity;
@@ -240,5 +242,24 @@ public class Database {
                     }
                 }
         );
+    }
+
+    public void checkEmail(EmailActivity activity, String email) {
+        db.collection(Constants.USERS).whereEqualTo("email", email).get().addOnSuccessListener(
+                new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.size() == 0) {
+                            activity.goCreateNewAcc(email);
+                        } else {
+                            activity.goLogin(email);
+                        }
+                    }
+                }
+        ).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
     }
 }

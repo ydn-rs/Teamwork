@@ -3,9 +3,11 @@ package ru.yudin_r.teamwork;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,56 +21,43 @@ import ru.yudin_r.teamwork.tools.Database;
 
 public class CreateNewAccActivity extends AppCompatActivity {
 
-    private TextInputEditText firstNameField, secondNameField, emailField, passwordField;
-    private Button createNewAccButton, loginTextButton;
+    private TextInputEditText emailField, passwordField;
+    private Button nextButton, emailTextButton;
+    private String email;
+    private TextView emailTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_acc);
-        firstNameField = findViewById(R.id.firstNameField);
-        secondNameField= findViewById(R.id.secondNameField);
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
-        createNewAccButton = findViewById(R.id.createNewAccButton);
-        loginTextButton = findViewById(R.id.loginTextButton);
+        nextButton = findViewById(R.id.nextButton);
+        emailTextButton = findViewById(R.id.emailTextButton);
+        emailTv = findViewById(R.id.emailTv);
+        email = getIntent().getStringExtra("email");
+        emailTv.setText(email);
+        emailField.setText(email);
 
-        loginTextButton.setOnClickListener(new View.OnClickListener() {
+        emailTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        createNewAccButton.setOnClickListener(new View.OnClickListener() {
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewAcc();
+                String email = emailField.getText().toString();
+                String password = passwordField.getText().toString();
+
+                Intent intent = new Intent(CreateNewAccActivity.this, NameActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
+                startActivity(intent);
+                finish();
             }
         });
-    }
-
-    private void createNewAcc() {
-        String firstName = firstNameField.getText().toString();
-        String secondName = secondNameField.getText().toString();
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            String id = new Database().getId();
-                            User user = new User(id, firstName, secondName, email, password);
-                            new Database().insertUserData(user);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
     }
 }

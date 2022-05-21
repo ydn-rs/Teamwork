@@ -14,6 +14,15 @@
         android:theme="@style/Theme.Teamwork"
         tools:targetApi="31">
         <activity
+            android:name=".NameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmailActivity"
+            android:exported="false" />
+        <activity
             android:name=".InviteUserActivity"
             android:exported="false" />
         <activity
@@ -33,9 +42,6 @@
             android:exported="false" />
         <activity
             android:name=".CreateNewAccActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
