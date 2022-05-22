@@ -16,6 +16,7 @@ import ru.yudin_r.teamwork.models.Board;
 import ru.yudin_r.teamwork.models.Task;
 import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
+import ru.yudin_r.teamwork.tools.OnCheckEmail;
 import ru.yudin_r.teamwork.tools.OnGetBoard;
 
 public class InviteUserActivity extends AppCompatActivity {
@@ -53,21 +54,34 @@ public class InviteUserActivity extends AppCompatActivity {
 
     private void inviteUser() {
         String email = emailField.getText().toString();
-        new Database().getUserDataByEmail(InviteUserActivity.this, email);
 
-        new Database().getBoardData(id, new OnGetBoard() {
+        new Database().checkEmail(email, new OnCheckEmail() {
             @Override
-            public void OnGetBoard(Board board) {
-                ArrayList<String> users = board.getUsers();
-                if (users.equals(uId)) {
-                    Toast.makeText(InviteUserActivity.this, "Error", Toast.LENGTH_SHORT)
-                            .show();
+            public void OnGetEmail(boolean b) {
+                if (b) {
+                    new Database().getUserDataByEmail(InviteUserActivity.this, email);
+
+                    new Database().getBoardData(id, new OnGetBoard() {
+                        @Override
+                        public void OnGetBoard(Board board) {
+                            ArrayList<String> users = board.getUsers();
+                            if (users.contains(uId)) {
+                                Toast.makeText(InviteUserActivity.this, "Error", Toast.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                users.add(uId);
+                                board.setUsers(users);
+                                new Database().updateBoardData(id, board);
+                            }
+                        }
+                    });
                 } else {
-                    users.add(uId);
-                    board.setUsers(users);
-                    new Database().updateBoardData(id, board);
+                    Toast.makeText(InviteUserActivity.this, "Проверьте правильность ввода, пробелы", Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         });
+
+
     }
 }

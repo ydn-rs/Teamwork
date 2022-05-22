@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -136,7 +137,8 @@ public class Database {
     }
 
     public void getTaskList(BoardActivity activity, String id) {
-        db.collection(Constants.TASKS).whereEqualTo("boardId", id).get().addOnSuccessListener(
+        db.collection(Constants.TASKS).whereEqualTo("boardId", id).orderBy("status",
+                Query.Direction.ASCENDING).get().addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -244,15 +246,15 @@ public class Database {
         );
     }
 
-    public void checkEmail(EmailActivity activity, String email) {
+    public void checkEmail(String email, OnCheckEmail onCheckEmail) {
         db.collection(Constants.USERS).whereEqualTo("email", email).get().addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (queryDocumentSnapshots.size() == 0) {
-                            activity.goCreateNewAcc(email);
+                            onCheckEmail.OnGetEmail(false);
                         } else {
-                            activity.goLogin(email);
+                            onCheckEmail.OnGetEmail(true);
                         }
                     }
                 }
@@ -261,5 +263,9 @@ public class Database {
             public void onFailure(@NonNull Exception e) {
             }
         });
+    }
+
+    public FirebaseFirestore getDb() {
+        return db;
     }
 }

@@ -32,7 +32,7 @@ public class ManageBoardActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private RecyclerView userRv;
     private FloatingActionButton inviteUserFAB;
-    private String id;
+    static private String id;
     private TextInputEditText boardTitleField;
     private Button saveButton;
 
@@ -44,7 +44,11 @@ public class ManageBoardActivity extends AppCompatActivity {
         setSupportActionBar(topAppBar);
         inviteUserFAB = findViewById(R.id.inviteUserFAB);
         userRv = findViewById(R.id.userList);
-        id = getIntent().getStringExtra("boardId");
+
+        if (getIntent().getStringExtra("boardId") != null) {
+            id = getIntent().getStringExtra("boardId");
+        }
+
         boardTitleField = findViewById(R.id.boardTitleField);
         saveButton = findViewById(R.id.saveButton);
 

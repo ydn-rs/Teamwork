@@ -1,5 +1,6 @@
 package ru.yudin_r.teamwork;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -15,13 +16,22 @@ import android.view.View;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import ru.yudin_r.teamwork.adapters.TaskAdapter;
 import ru.yudin_r.teamwork.adapters.TaskSwiper;
 import ru.yudin_r.teamwork.models.Board;
 import ru.yudin_r.teamwork.models.Task;
+import ru.yudin_r.teamwork.tools.Constants;
 import ru.yudin_r.teamwork.tools.Database;
 import ru.yudin_r.teamwork.tools.OnGetBoard;
 
@@ -30,7 +40,7 @@ public class BoardActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private RecyclerView taskRv;
     private FloatingActionButton createTaskFAB;
-    private String id;
+    static private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +50,9 @@ public class BoardActivity extends AppCompatActivity {
         setSupportActionBar(topAppBar);
         createTaskFAB = findViewById(R.id.createTaskFAB);
         taskRv = findViewById(R.id.taskList);
-        id = getIntent().getStringExtra("boardId");
+        if (getIntent().getStringExtra("boardId") != null) {
+            id = getIntent().getStringExtra("boardId");
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -58,6 +70,7 @@ public class BoardActivity extends AppCompatActivity {
         setTitle();
         new Database().getTaskList(BoardActivity.this, id);
         menuOnClickListeners();
+        eventListener();
     }
 
     @Override
@@ -101,4 +114,21 @@ public class BoardActivity extends AppCompatActivity {
                 new TaskSwiper(BoardActivity.this, taskAdapter));
         itemTouchHelper.attachToRecyclerView(taskRv);
     }
+
+    private void eventListener() {
+        new Database().getDb().collection(Constants.TASKS).whereEqualTo("boardId", id).orderBy("status",
+                Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentChange documentChange : value.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED ||
+                            documentChange.getType() == DocumentChange.Type.REMOVED ||
+                            documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                        new Database().getTaskList(BoardActivity.this, id);
+                    }
+                }
+            }
+        });
+    }
+
 }

@@ -1,5 +1,6 @@
 package ru.yudin_r.teamwork;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -16,6 +17,10 @@ import android.view.View;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -24,6 +29,7 @@ import ru.yudin_r.teamwork.adapters.BoardSwiper;
 import ru.yudin_r.teamwork.adapters.TaskSwiper;
 import ru.yudin_r.teamwork.models.Board;
 import ru.yudin_r.teamwork.models.User;
+import ru.yudin_r.teamwork.tools.Constants;
 import ru.yudin_r.teamwork.tools.Database;
 import ru.yudin_r.teamwork.tools.OnGetUser;
 
@@ -49,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CreateBoardActivity.class));
             }
         });
+
+        eventListener();
     }
 
     @Override
@@ -108,5 +116,21 @@ public class MainActivity extends AppCompatActivity {
         menuOnClickListener();
         setTitle();
         new Database().getBoardList(MainActivity.this);
+    }
+
+    private void eventListener() {
+        new Database().getDb().collection(Constants.BOARDS).whereArrayContains("users",
+                new Database().getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentChange documentChange : value.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED ||
+                            documentChange.getType() == DocumentChange.Type.REMOVED ||
+                            documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                        new Database().getBoardList(MainActivity.this);
+                    }
+                }
+            }
+        });
     }
 }
