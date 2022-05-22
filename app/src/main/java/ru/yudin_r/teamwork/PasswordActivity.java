@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +23,7 @@ public class PasswordActivity extends AppCompatActivity {
     private String email;
     private Button loginButton, emailTextButton;
     private TextView emailTv;
+    private MaterialToolbar topAppBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,13 @@ public class PasswordActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.passwordField);
         email = getIntent().getStringExtra("email");
         loginButton = findViewById(R.id.loginButton);
-        emailTextButton = findViewById(R.id.emailTextButton);
         emailTv = findViewById(R.id.emailTv);
         emailTv.setText(email);
+        topAppBar = findViewById(R.id.topAppBar);
+        setSupportActionBar(topAppBar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,12 +46,7 @@ public class PasswordActivity extends AppCompatActivity {
                 login();
             }
         });
-        emailTextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
 
     private void login() {

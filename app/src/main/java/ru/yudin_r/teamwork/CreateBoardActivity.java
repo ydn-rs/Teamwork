@@ -36,6 +36,9 @@ public class CreateBoardActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     }
 
     private void createBoard() {

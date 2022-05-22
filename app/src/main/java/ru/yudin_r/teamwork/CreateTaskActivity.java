@@ -29,6 +29,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         createButton = findViewById(R.id.createButton);
         id = getIntent().getStringExtra("boardId");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

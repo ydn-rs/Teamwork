@@ -36,6 +36,9 @@ public class InviteUserActivity extends AppCompatActivity {
         inviteButton = findViewById(R.id.inviteButton);
         id = getIntent().getStringExtra("boardId");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         inviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

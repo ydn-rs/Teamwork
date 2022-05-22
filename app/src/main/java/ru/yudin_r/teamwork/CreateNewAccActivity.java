@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +26,7 @@ public class CreateNewAccActivity extends AppCompatActivity {
     private Button nextButton, emailTextButton;
     private String email;
     private TextView emailTv;
+    private MaterialToolbar topAppBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +35,15 @@ public class CreateNewAccActivity extends AppCompatActivity {
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
         nextButton = findViewById(R.id.nextButton);
-        emailTextButton = findViewById(R.id.emailTextButton);
         emailTv = findViewById(R.id.emailTv);
         email = getIntent().getStringExtra("email");
         emailTv.setText(email);
         emailField.setText(email);
+        topAppBar = findViewById(R.id.topAppBar);
+        setSupportActionBar(topAppBar);
 
-        emailTextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override

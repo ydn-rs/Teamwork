@@ -42,6 +42,9 @@ public class BoardActivity extends AppCompatActivity {
         taskRv = findViewById(R.id.taskList);
         id = getIntent().getStringExtra("boardId");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         createTaskFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +88,7 @@ public class BoardActivity extends AppCompatActivity {
         new Database().getBoardData(id, new OnGetBoard() {
             @Override
             public void OnGetBoard(Board board) {
-                topAppBar.setTitle(board.getTitle());
+                topAppBar.setTitle("Проект '" + board.getTitle() + "'");
             }
         });
     }

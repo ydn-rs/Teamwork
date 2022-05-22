@@ -48,6 +48,9 @@ public class ManageBoardActivity extends AppCompatActivity {
         boardTitleField = findViewById(R.id.boardTitleField);
         saveButton = findViewById(R.id.saveButton);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +77,7 @@ public class ManageBoardActivity extends AppCompatActivity {
         new Database().getBoardData(id, new OnGetBoard() {
             @Override
             public void OnGetBoard(Board board) {
-                topAppBar.setTitle("Управление доской '" + board.getTitle() + "'");
+                topAppBar.setTitle("Управление '" + board.getTitle() + "'");
                 boardTitleField.setText(board.getTitle());
             }
         });

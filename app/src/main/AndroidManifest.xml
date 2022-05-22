@@ -13,42 +13,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Teamwork"
         tools:targetApi="31">
-        <activity
-            android:name=".NameActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EmailActivity"
-            android:exported="false" />
+
         <activity
             android:name=".InviteUserActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ManageBoardActivity"/>
         <activity
             android:name=".CreateTaskActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".BoardActivity"/>
         <activity
             android:name=".ManageBoardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".BoardActivity"/>
         <activity
             android:name=".BoardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".CreateBoardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".PasswordActivity"
+            android:exported="false"
+            android:parentActivityName=".EmailActivity"/>
+        <activity
+            android:name=".NameActivity"
+            android:exported="false"
+            android:parentActivityName=".EmailActivity"/>
+        <activity
             android:name=".CreateNewAccActivity"
+            android:exported="false"
+            android:parentActivityName=".EmailActivity"/>
+        <activity
+            android:name=".EmailActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -4,9 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp"
     tools:context=".NameActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:title=" "/>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -35,7 +52,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         android:hint="Имя"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
@@ -59,7 +78,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:hint="Фамилия"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
@@ -82,22 +103,13 @@
         android:id="@+id/createNewAccButton"
         android:layout_width="0dp"
         android:layout_height="70dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:text="Создать аккаунт"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextField2" />
-
-    <Button
-        android:id="@+id/emailTextButton"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:text="Вернуться в начало"
-        app:cornerRadius="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createNewAccButton"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

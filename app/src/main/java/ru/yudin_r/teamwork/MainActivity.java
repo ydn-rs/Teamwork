@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         new Database().getUserData(new Database().getId(), new OnGetUser() {
             @Override
             public void onGetUser(User user) {
-                topAppBar.setTitle(user.getFirstName() + " " + user.getSecondName());
+               topAppBar.setTitle("Привет, " + user.getFirstName());
             }
         });
     }
