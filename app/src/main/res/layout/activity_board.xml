@@ -22,7 +22,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:menu="@menu/top_board_app_bar"
-            app:title="Название доски"/>
+            app:title="Название доски" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -1,18 +1,16 @@
 package ru.yudin_r.teamwork;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import ru.yudin_r.teamwork.tools.Database;
-import ru.yudin_r.teamwork.tools.OnCheckEmail;
 
 public class EmailActivity extends AppCompatActivity {
 
@@ -48,21 +46,15 @@ public class EmailActivity extends AppCompatActivity {
 
         emailField.addTextChangedListener(textWatcher);
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailField.getText().toString();
-                new Database().checkEmail(email, new OnCheckEmail() {
-                    @Override
-                    public void OnGetEmail(boolean b) {
-                        if (b) {
-                            goLogin(email);
-                        } else {
-                            goCreateNewAcc(email);
-                        }
-                    }
-                });
-            }
+        nextButton.setOnClickListener(v -> {
+            String email = emailField.getText().toString();
+            new Database().checkEmail(email, b -> {
+                if (b) {
+                    goLogin(email);
+                } else {
+                    goCreateNewAcc(email);
+                }
+            });
         });
     }
 

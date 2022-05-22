@@ -1,10 +1,9 @@
 package ru.yudin_r.teamwork;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,9 +13,8 @@ import ru.yudin_r.teamwork.tools.Database;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
-    private TextInputEditText taskTextField;
-    private Button createButton;
     MaterialToolbar topAppBar;
+    private TextInputEditText taskTextField;
     private String id;
 
     @Override
@@ -26,18 +24,13 @@ public class CreateTaskActivity extends AppCompatActivity {
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
         taskTextField = findViewById(R.id.taskTextField);
-        createButton = findViewById(R.id.createButton);
+        Button createButton = findViewById(R.id.createButton);
         id = getIntent().getStringExtra("boardId");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createTask();
-            }
-        });
+        createButton.setOnClickListener(v -> createTask());
     }
 
     private void createTask() {

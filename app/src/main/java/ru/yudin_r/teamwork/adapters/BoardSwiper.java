@@ -17,8 +17,8 @@ import ru.yudin_r.teamwork.tools.Database;
 
 public class BoardSwiper extends ItemTouchHelper.SimpleCallback {
 
-    private BoardAdapter boardAdapter;
-    private Context context;
+    private final BoardAdapter boardAdapter;
+    private final Context context;
 
     public BoardSwiper(Context context, BoardAdapter boardAdapter) {
         super(0, ItemTouchHelper.LEFT);

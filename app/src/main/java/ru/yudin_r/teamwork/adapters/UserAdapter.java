@@ -11,12 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ru.yudin_r.teamwork.R;
-import ru.yudin_r.teamwork.models.Board;
 import ru.yudin_r.teamwork.models.User;
-import ru.yudin_r.teamwork.tools.Database;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
-    private ArrayList<User> userList;
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+    private final ArrayList<User> userList;
 
     public UserAdapter(ArrayList<User> userList) {
         this.userList = userList;
@@ -43,8 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     }
 
     public User getUser(int position) {
-        User user = userList.get(position);
-        return user;
+        return userList.get(position);
     }
 
     public void deleteItem(int position) {
@@ -52,7 +49,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         notifyItemRemoved(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView userName, userEmail;
 

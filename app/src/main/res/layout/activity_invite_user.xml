@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            app:title="Добавление участника"/>
+            app:title="Добавление участника" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

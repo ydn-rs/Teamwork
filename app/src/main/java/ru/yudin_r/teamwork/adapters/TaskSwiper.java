@@ -13,8 +13,8 @@ import ru.yudin_r.teamwork.R;
 
 
 public class TaskSwiper extends ItemTouchHelper.SimpleCallback {
-    private TaskAdapter taskAdapter;
-    private Context context;
+    private final TaskAdapter taskAdapter;
+    private final Context context;
 
     public TaskSwiper(Context context, TaskAdapter taskAdapter) {
         super(0, ItemTouchHelper.LEFT);

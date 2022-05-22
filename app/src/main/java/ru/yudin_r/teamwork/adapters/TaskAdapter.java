@@ -21,7 +21,7 @@ import ru.yudin_r.teamwork.tools.OnGetUser;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
-    private ArrayList<Task> taskList;
+    private final ArrayList<Task> taskList;
 
     public TaskAdapter(ArrayList<Task> taskList) {
         this.taskList = taskList;

@@ -17,38 +17,38 @@
         <activity
             android:name=".InviteUserActivity"
             android:exported="false"
-            android:parentActivityName=".ManageBoardActivity"/>
+            android:parentActivityName=".ManageBoardActivity" />
         <activity
             android:name=".CreateTaskActivity"
             android:exported="false"
-            android:parentActivityName=".BoardActivity"/>
+            android:parentActivityName=".BoardActivity" />
         <activity
             android:name=".ManageBoardActivity"
             android:exported="false"
-            android:parentActivityName=".BoardActivity"/>
+            android:parentActivityName=".BoardActivity" />
         <activity
             android:name=".BoardActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CreateBoardActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".PasswordActivity"
             android:exported="false"
-            android:parentActivityName=".EmailActivity"/>
+            android:parentActivityName=".EmailActivity" />
         <activity
             android:name=".NameActivity"
             android:exported="false"
-            android:parentActivityName=".EmailActivity"/>
+            android:parentActivityName=".EmailActivity" />
         <activity
             android:name=".CreateNewAccActivity"
             android:exported="false"
-            android:parentActivityName=".EmailActivity"/>
+            android:parentActivityName=".EmailActivity" />
         <activity
             android:name=".EmailActivity"
             android:exported="false" />

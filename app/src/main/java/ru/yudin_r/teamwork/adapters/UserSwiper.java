@@ -2,14 +2,11 @@ package ru.yudin_r.teamwork.adapters;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import ru.yudin_r.teamwork.R;
@@ -18,11 +15,11 @@ import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
 import ru.yudin_r.teamwork.tools.OnGetBoard;
 
-public class UserSwiper extends ItemTouchHelper.SimpleCallback{
+public class UserSwiper extends ItemTouchHelper.SimpleCallback {
 
-    private UserAdapter userAdapter;
-    private Context context;
-    private String id;
+    private final UserAdapter userAdapter;
+    private final Context context;
+    private final String id;
 
     public UserSwiper(Context context, UserAdapter userAdapter, String id) {
         super(0, ItemTouchHelper.LEFT);

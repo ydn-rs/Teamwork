@@ -1,10 +1,9 @@
 package ru.yudin_r.teamwork;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -16,9 +15,8 @@ import ru.yudin_r.teamwork.tools.Database;
 
 public class CreateBoardActivity extends AppCompatActivity {
 
-    private TextInputEditText boardTitleField;
-    private Button createButton;
     MaterialToolbar topAppBar;
+    private TextInputEditText boardTitleField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +25,9 @@ public class CreateBoardActivity extends AppCompatActivity {
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
         boardTitleField = findViewById(R.id.boardTitleField);
-        createButton = findViewById(R.id.createButton);
+        Button createButton = findViewById(R.id.createButton);
 
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createBoard();
-            }
-        });
+        createButton.setOnClickListener(v -> createBoard());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

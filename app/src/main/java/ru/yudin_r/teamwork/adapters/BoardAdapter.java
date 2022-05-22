@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import ru.yudin_r.teamwork.R;
 import ru.yudin_r.teamwork.models.Board;
-import ru.yudin_r.teamwork.models.Task;
 import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
 import ru.yudin_r.teamwork.tools.OnGetUser;
@@ -62,10 +61,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         this.onClickListener = onClickListener;
     }
 
-    public interface OnClickListener {
-        void onClick(int position, Board board);
-    }
-
     public Board getBoard(int position) {
         Board board = boardList.get(position);
         return board;
@@ -80,6 +75,10 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         Board board = boardList.get(position);
         new Database().deleteBoard(board.getId());
         deleteItem(position);
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, Board board);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
