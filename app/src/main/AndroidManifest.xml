@@ -17,21 +17,21 @@
         <activity
             android:name=".InviteUserActivity"
             android:exported="false"
-            android:parentActivityName=".ManageBoardActivity" />
+            android:parentActivityName=".ManageProjectActivity" />
         <activity
             android:name=".CreateTaskActivity"
             android:exported="false"
-            android:parentActivityName=".BoardActivity" />
+            android:parentActivityName=".ProjectActivity" />
         <activity
-            android:name=".ManageBoardActivity"
+            android:name=".ManageProjectActivity"
             android:exported="false"
-            android:parentActivityName=".BoardActivity" />
+            android:parentActivityName=".ProjectActivity" />
         <activity
-            android:name=".BoardActivity"
+            android:name=".ProjectActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".CreateBoardActivity"
+            android:name=".CreateProjectActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity

@@ -14,6 +14,7 @@ import ru.yudin_r.teamwork.R;
 import ru.yudin_r.teamwork.models.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+
     private final ArrayList<User> userList;
 
     public UserAdapter(ArrayList<User> userList) {
@@ -31,7 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
         User user = userList.get(position);
-        holder.userName.setText(user.getFirstName() + " " + user.getSecondName());
+        holder.userName.setText(user.getFullName());
         holder.userEmail.setText(user.getEmail());
     }
 

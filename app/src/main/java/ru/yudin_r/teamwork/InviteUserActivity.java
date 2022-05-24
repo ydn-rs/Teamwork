@@ -18,7 +18,7 @@ public class InviteUserActivity extends AppCompatActivity {
 
     MaterialToolbar topAppBar;
     private TextInputEditText emailField;
-    private String id;
+    private String projectId;
     private String uId;
 
     @Override
@@ -29,7 +29,7 @@ public class InviteUserActivity extends AppCompatActivity {
         setSupportActionBar(topAppBar);
         emailField = findViewById(R.id.emailField);
         Button inviteButton = findViewById(R.id.inviteButton);
-        id = getIntent().getStringExtra("boardId");
+        projectId = getIntent().getStringExtra("projectId");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -53,15 +53,16 @@ public class InviteUserActivity extends AppCompatActivity {
             if (b) {
                 new Database().getUserDataByEmail(InviteUserActivity.this, email);
 
-                new Database().getBoardData(id, board -> {
-                    ArrayList<String> users = board.getUsers();
+                new Database().getProjectData(projectId, project -> {
+                    ArrayList<String> users = project.getUsers();
                     if (users.contains(uId)) {
-                        Toast.makeText(InviteUserActivity.this, "Error", Toast.LENGTH_SHORT)
+                        Toast.makeText(InviteUserActivity.this, "Ошибка. Пользователь уже присутвует в этом проекте", Toast.LENGTH_SHORT)
                                 .show();
                     } else {
                         users.add(uId);
-                        board.setUsers(users);
-                        new Database().updateBoardData(id, board);
+                        project.setUsers(users);
+                        new Database().updateProjectData(projectId, project);
+                        Toast.makeText(InviteUserActivity.this, "Пользователь добавлен", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -69,7 +70,5 @@ public class InviteUserActivity extends AppCompatActivity {
                         .show();
             }
         });
-
-
     }
 }

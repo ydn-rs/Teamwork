@@ -2,6 +2,7 @@ package ru.yudin_r.teamwork;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,7 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     MaterialToolbar topAppBar;
     private TextInputEditText taskTextField;
-    private String id;
+    private String projectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         setSupportActionBar(topAppBar);
         taskTextField = findViewById(R.id.taskTextField);
         Button createButton = findViewById(R.id.createButton);
-        id = getIntent().getStringExtra("boardId");
+        projectId = getIntent().getStringExtra("projectId");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -37,8 +38,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         String taskText = taskTextField.getText().toString();
         String creatorId = new Database().getId();
 
-        Task task = new Task(null, id, taskText, creatorId, 0);
+        Task task = new Task(null, projectId, taskText, creatorId, 0);
         new Database().insertTaskData(task);
-
+        Toast.makeText(CreateTaskActivity.this, "Задача успешно создана!", Toast.LENGTH_SHORT).show();
+        taskTextField.setText(null);
     }
 }

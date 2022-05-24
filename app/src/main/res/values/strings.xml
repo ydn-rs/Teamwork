@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Teamwork</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="no_acc">Мы не нашли аккаунт с адресом</string>
+    <string name="email">Электронная почта</string>
+    <string name="password">Пароль</string>
+    <string name="next">Далее</string>
+    <string name="project_title">Заголовок проекта</string>
+    <string name="create">Создать</string>
+    <string name="task_text">Текст задачи</string>
+    <string name="please_input_email">Введите адрес электронной почты</string>
+    <string name="invite_user">Добавить участника</string>
+    <string name="save">Сохранить</string>
+    <string name="get_dating">Давайте знакомиться!</string>
+    <string name="please_input_name">Введите имя и фамилию.</string>
+    <string name="first_name">Имя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="create_acc">Создать аккаунт</string>
+    <string name="sign_in">Авторизация</string>
+    <string name="have_acc">Мы нашли аккаунт с адресом</string>
+    <string name="login">Войти в аккаунт</string>
+    <string name="project_manage">Управление проектом</string>
+    <string name="project_users">Пользователей</string>
+    <string name="project_creator">Создатель</string>
 </resources>

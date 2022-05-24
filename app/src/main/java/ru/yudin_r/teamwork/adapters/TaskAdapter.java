@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +14,7 @@ import java.util.ArrayList;
 
 import ru.yudin_r.teamwork.R;
 import ru.yudin_r.teamwork.models.Task;
-import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
-import ru.yudin_r.teamwork.tools.OnGetUser;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
@@ -39,21 +36,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.taskCheckBox.setText(task.getText());
-        new Database().getUserData(task.getCreatorId(), new OnGetUser() {
-            @Override
-            public void onGetUser(User user) {
-                holder.taskCreator.setText(user.getFirstName() + " " + user.getSecondName());
-            }
-        });
-        holder.taskCheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (b) {
-                            new Database().updateTaskStatus(task.getId(), 1);
-                        } else {
-                            new Database().updateTaskStatus(task.getId(), 0);
-                        }
+        new Database().getUserData(task.getCreatorId(), user ->
+                holder.taskCreator.setText(user.getFullName()));
+        holder.taskCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+                    if (b) {
+                        new Database().updateTaskStatus(task.getId(), 1);
+                    } else {
+                        new Database().updateTaskStatus(task.getId(), 0);
                     }
                 }
         );
@@ -76,7 +65,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox taskCheckBox;
         Chip taskCreator;

@@ -20,72 +20,72 @@ import ru.yudin_r.teamwork.adapters.UserSwiper;
 import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
 
-public class ManageBoardActivity extends AppCompatActivity {
+public class ManageProjectActivity extends AppCompatActivity {
 
-    static private String id;
+    static private String projectId;
     private MaterialToolbar topAppBar;
     private RecyclerView userRv;
-    private TextInputEditText boardTitleField;
+    private TextInputEditText projectTitleField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_board);
+        setContentView(R.layout.activity_manage_project);
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
         FloatingActionButton inviteUserFAB = findViewById(R.id.inviteUserFAB);
         userRv = findViewById(R.id.userList);
 
-        if (getIntent().getStringExtra("boardId") != null) {
-            id = getIntent().getStringExtra("boardId");
+        if (getIntent().getStringExtra("projectId") != null) {
+            projectId = getIntent().getStringExtra("projectId");
         }
 
-        boardTitleField = findViewById(R.id.boardTitleField);
+        projectTitleField = findViewById(R.id.projectTitleField);
         Button saveButton = findViewById(R.id.saveButton);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        saveButton.setOnClickListener(v -> updateBoardTitle());
+        saveButton.setOnClickListener(v -> updateProjectTitle());
 
         inviteUserFAB.setOnClickListener(v -> {
             Intent intent = new Intent(
-                    ManageBoardActivity.this, InviteUserActivity.class);
-            intent.putExtra("boardId", id);
+                    ManageProjectActivity.this, InviteUserActivity.class);
+            intent.putExtra("projectId", projectId);
             startActivity(intent);
         });
 
         setTitle();
-        getBoardUsers();
+        getProjectUsers();
 
     }
 
     private void setTitle() {
-        new Database().getBoardData(id, board -> {
-            topAppBar.setTitle("Управление '" + board.getTitle() + "'");
-            boardTitleField.setText(board.getTitle());
+        new Database().getProjectData(projectId, project -> {
+            topAppBar.setTitle("Управление '" + project.getTitle() + "'");
+            projectTitleField.setText(project.getTitle());
         });
     }
 
-    private void getBoardUsers() {
-        new Database().getBoardData(id, board ->
-                new Database().getUserList(ManageBoardActivity.this, board.getUsers()));
+    private void getProjectUsers() {
+        new Database().getProjectData(projectId, project ->
+                new Database().getUserList(ManageProjectActivity.this, project.getUsers()));
     }
 
-    public void showUserList(ArrayList<User> userList) {
-        userRv.setLayoutManager(new LinearLayoutManager(ManageBoardActivity.this));
-        UserAdapter userAdapter = new UserAdapter(userList);
+    public void showUserList(ArrayList<User> users) {
+        userRv.setLayoutManager(new LinearLayoutManager(ManageProjectActivity.this));
+        UserAdapter userAdapter = new UserAdapter(users);
         userRv.setAdapter(userAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new UserSwiper(ManageBoardActivity.this, userAdapter, id));
+                new UserSwiper(ManageProjectActivity.this, userAdapter, projectId));
         itemTouchHelper.attachToRecyclerView(userRv);
     }
 
-    private void updateBoardTitle() {
-        String title = boardTitleField.getText().toString();
-        new Database().getBoardData(id, board -> {
-            board.setTitle(title);
-            new Database().updateBoardData(id, board);
+    private void updateProjectTitle() {
+        String title = projectTitleField.getText().toString();
+        new Database().getProjectData(projectId, project -> {
+            project.setTitle(title);
+            new Database().updateProjectData(projectId, project);
         });
     }
 }

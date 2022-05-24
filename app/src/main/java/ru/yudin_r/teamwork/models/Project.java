@@ -2,15 +2,15 @@ package ru.yudin_r.teamwork.models;
 
 import java.util.ArrayList;
 
-public class Board {
+public class Project {
 
     private String id, title, creatorId;
     private ArrayList<String> users;
 
-    public Board() {
+    public Project() {
     }
 
-    public Board(String id, String title, String creatorId, ArrayList<String> users) {
+    public Project(String id, String title, String creatorId, ArrayList<String> users) {
         this.id = id;
         this.title = title;
         this.creatorId = creatorId;

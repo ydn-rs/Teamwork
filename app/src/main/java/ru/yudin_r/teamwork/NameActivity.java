@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-import ru.yudin_r.teamwork.models.Board;
+import ru.yudin_r.teamwork.models.Project;
 import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
 
@@ -78,8 +78,8 @@ public class NameActivity extends AppCompatActivity {
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password);
                     ArrayList<String> users = new ArrayList<>();
                     users.add(id);
-                    Board b = new Board(null, "test", id, users);
-                    new Database().insertBoardData(b);
+                    Project project = new Project(null, "Hello, Teamwork!", id, users);
+                    new Database().insertProjectData(project);
                     startActivity(new Intent(NameActivity.this, MainActivity.class));
                     finish();
                 }

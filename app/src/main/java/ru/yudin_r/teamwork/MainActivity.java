@@ -17,16 +17,16 @@ import com.google.firebase.firestore.DocumentChange;
 
 import java.util.ArrayList;
 
-import ru.yudin_r.teamwork.adapters.BoardAdapter;
-import ru.yudin_r.teamwork.adapters.BoardSwiper;
-import ru.yudin_r.teamwork.models.Board;
+import ru.yudin_r.teamwork.adapters.ProjectAdapter;
+import ru.yudin_r.teamwork.adapters.ProjectSwiper;
+import ru.yudin_r.teamwork.models.Project;
 import ru.yudin_r.teamwork.tools.Constants;
 import ru.yudin_r.teamwork.tools.Database;
 
 public class MainActivity extends AppCompatActivity {
 
     private MaterialToolbar topAppBar;
-    private RecyclerView boardRV;
+    private RecyclerView projectRv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +34,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
-        FloatingActionButton createBoardFAB = findViewById(R.id.createBoardFAB);
-        boardRV = findViewById(R.id.boardList);
+        FloatingActionButton createProjectFAB = findViewById(R.id.createProjectFAB);
+        projectRv = findViewById(R.id.projectRv);
         initFun();
 
-        createBoardFAB.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, CreateBoardActivity.class)));
-
+        createProjectFAB.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, CreateProjectActivity.class)));
         eventListener();
     }
 
@@ -73,34 +72,33 @@ public class MainActivity extends AppCompatActivity {
                 topAppBar.setTitle("Привет, " + user.getFirstName()));
     }
 
-    public void showBoardList(ArrayList<Board> boardList) {
-        boardRV.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        BoardAdapter boardAdapter = new BoardAdapter(boardList);
-        boardRV.setAdapter(boardAdapter);
-        boardAdapter.setOnClickListener((position, board) -> {
-            Intent intent = new Intent(MainActivity.this, BoardActivity.class);
-            intent.putExtra("boardId", board.getId());
+    public void showProjectList(ArrayList<Project> projects) {
+        projectRv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        ProjectAdapter projectAdapter = new ProjectAdapter(projects, (position, project) -> {
+            Intent intent = new Intent(MainActivity.this, ProjectActivity.class);
+            intent.putExtra("projectId", project.getId());
             startActivity(intent);
         });
+        projectRv.setAdapter(projectAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new BoardSwiper(MainActivity.this, boardAdapter));
-        itemTouchHelper.attachToRecyclerView(boardRV);
+                new ProjectSwiper(MainActivity.this, projectAdapter));
+        itemTouchHelper.attachToRecyclerView(projectRv);
     }
 
     private void initFun() {
         menuOnClickListener();
         setTitle();
-        new Database().getBoardList(MainActivity.this);
+        new Database().getProjectList(MainActivity.this);
     }
 
     private void eventListener() {
-        new Database().getDb().collection(Constants.BOARDS).whereArrayContains("users",
+        new Database().getDb().collection(Constants.PROJECTS).whereArrayContains("users",
                 new Database().getId()).addSnapshotListener((value, error) -> {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED ||
                         documentChange.getType() == DocumentChange.Type.REMOVED ||
                         documentChange.getType() == DocumentChange.Type.MODIFIED) {
-                    new Database().getBoardList(MainActivity.this);
+                    new Database().getProjectList(MainActivity.this);
                 }
             }
         });

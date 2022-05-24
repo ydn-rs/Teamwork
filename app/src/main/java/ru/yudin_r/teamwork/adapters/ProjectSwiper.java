@@ -8,19 +8,22 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import ru.yudin_r.teamwork.R;
+import ru.yudin_r.teamwork.models.Project;
+import ru.yudin_r.teamwork.tools.Database;
 
+public class ProjectSwiper extends ItemTouchHelper.SimpleCallback {
 
-public class TaskSwiper extends ItemTouchHelper.SimpleCallback {
-
-    private final TaskAdapter taskAdapter;
     private final Context context;
+    private final ProjectAdapter projectAdapter;
 
-    public TaskSwiper(Context context, TaskAdapter taskAdapter) {
+    public ProjectSwiper(Context context, ProjectAdapter projectAdapter) {
         super(0, ItemTouchHelper.LEFT);
         this.context = context;
-        this.taskAdapter = taskAdapter;
+        this.projectAdapter = projectAdapter;
     }
 
     @Override
@@ -33,8 +36,18 @@ public class TaskSwiper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getLayoutPosition();
+        Project project = projectAdapter.getProject(position);
         if (direction == ItemTouchHelper.LEFT) {
-            taskAdapter.deleteItem(position);
+            if (project.getUsers().size() == 1) {
+                projectAdapter.deleteProject(position);
+            } else {
+                ArrayList<String> users = project.getUsers();
+                users.remove(new Database().getId());
+                project.setCreatorId(users.get(0));
+                project.setUsers(users);
+                new Database().updateProjectData(project.getId(), project);
+                projectAdapter.deleteItem(position);
+            }
         }
     }
 

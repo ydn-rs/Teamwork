@@ -1,15 +1,16 @@
 package ru.yudin_r.teamwork.models;
 
 public class Task {
-    private String id, boardId, text, creatorId;
+
+    private String id, projectId, text, creatorId;
     private int status;
 
     public Task() {
     }
 
-    public Task(String id, String boardId, String text, String creatorId, int status) {
+    public Task(String id, String projectId, String text, String creatorId, int status) {
         this.id = id;
-        this.boardId = boardId;
+        this.projectId = projectId;
         this.text = text;
         this.creatorId = creatorId;
         this.status = status;
@@ -23,12 +24,12 @@ public class Task {
         this.id = id;
     }
 
-    public String getBoardId() {
-        return boardId;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setBoardId(String boardId) {
-        this.boardId = boardId;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public String getText() {
