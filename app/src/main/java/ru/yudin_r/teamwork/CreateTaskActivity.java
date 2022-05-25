@@ -1,6 +1,8 @@
 package ru.yudin_r.teamwork;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -27,9 +29,29 @@ public class CreateTaskActivity extends AppCompatActivity {
         taskTextField = findViewById(R.id.taskTextField);
         Button createButton = findViewById(R.id.createButton);
         projectId = getIntent().getStringExtra("projectId");
+        createButton.setEnabled(false);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                createButton.setEnabled(taskTextField.getText().toString().length() > 0);
+            }
+        };
+
+        taskTextField.addTextChangedListener(textWatcher);
 
         createButton.setOnClickListener(v -> createTask());
     }
@@ -40,7 +62,8 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         Task task = new Task(null, projectId, taskText, creatorId, 0);
         new Database().insertTaskData(task);
-        Toast.makeText(CreateTaskActivity.this, "Задача успешно создана!", Toast.LENGTH_SHORT).show();
+        new Database().showMsg(CreateTaskActivity.this, "Задача успешно создана!");
+
         taskTextField.setText(null);
     }
 }

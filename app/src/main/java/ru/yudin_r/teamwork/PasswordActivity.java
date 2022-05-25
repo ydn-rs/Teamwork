@@ -4,19 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+
+import ru.yudin_r.teamwork.tools.Constants;
+import ru.yudin_r.teamwork.tools.Database;
 
 public class PasswordActivity extends AppCompatActivity {
 
     private TextInputEditText passwordField;
     private String email;
+    private String password;
     private Button loginButton;
 
     @Override
@@ -32,6 +39,7 @@ public class PasswordActivity extends AppCompatActivity {
         setSupportActionBar(topAppBar);
         loginButton.setEnabled(false);
 
+
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -45,9 +53,7 @@ public class PasswordActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (passwordField.getText().toString().length() > 0) {
-                    loginButton.setEnabled(true);
-                }
+                loginButton.setEnabled(passwordField.getText().toString().length() > 0);
             }
         };
 
@@ -61,9 +67,10 @@ public class PasswordActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String password = passwordField.getText().toString();
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(
+        String password_input = passwordField.getText().toString();
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password_input).addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful()) {
                         startActivity(
@@ -71,7 +78,6 @@ public class PasswordActivity extends AppCompatActivity {
                                         PasswordActivity.this, MainActivity.class));
                     }
                 }
-        ).addOnFailureListener(e -> {
-        });
+        ).addOnFailureListener(e -> new Database().showErrorMsg(PasswordActivity.this, e));
     }
 }

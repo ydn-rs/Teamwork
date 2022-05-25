@@ -1,6 +1,8 @@
 package ru.yudin_r.teamwork;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -27,11 +29,31 @@ public class CreateProjectActivity extends AppCompatActivity {
         setSupportActionBar(topAppBar);
         projectTitleField = findViewById(R.id.projectTitleField);
         Button createButton = findViewById(R.id.createButton);
+        createButton.setEnabled(false);
 
         createButton.setOnClickListener(v -> createProject());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                createButton.setEnabled(projectTitleField.getText().toString().length() > 0);
+            }
+        };
+
+        projectTitleField.addTextChangedListener(textWatcher);
 
     }
 
@@ -43,7 +65,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         Project project = new Project(null, projectTitle, creatorId, users);
         new Database().insertProjectData(project);
-        Toast.makeText(CreateProjectActivity.this, "Проект успешно создан!", Toast.LENGTH_SHORT).show();
+        new Database().showMsg(CreateProjectActivity.this, "Проект успешно создан!");
         projectTitleField.setText(null);
     }
 }

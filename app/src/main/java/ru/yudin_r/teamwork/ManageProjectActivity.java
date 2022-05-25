@@ -2,6 +2,8 @@ package ru.yudin_r.teamwork;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,7 +59,6 @@ public class ManageProjectActivity extends AppCompatActivity {
 
         setTitle();
         getProjectUsers();
-
     }
 
     private void setTitle() {
@@ -87,5 +88,6 @@ public class ManageProjectActivity extends AppCompatActivity {
             project.setTitle(title);
             new Database().updateProjectData(projectId, project);
         });
+        new Database().showMsg(ManageProjectActivity.this, "Заголовок успешно обновлен!");
     }
 }

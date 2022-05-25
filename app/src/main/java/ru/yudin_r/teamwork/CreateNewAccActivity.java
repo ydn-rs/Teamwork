@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import ru.yudin_r.teamwork.tools.Database;
+
 public class CreateNewAccActivity extends AppCompatActivity {
 
     private TextInputEditText emailField, passwordField;
@@ -60,17 +62,30 @@ public class CreateNewAccActivity extends AppCompatActivity {
 
         nextButton.setOnClickListener(v -> {
 
-            if (passwordField.getText().length() < 6) {
+            String email_input = emailField.getText().toString().toLowerCase().replaceAll(" ", "");
+            String password = passwordField.getText().toString();
+
+            if (password.length() < 6) {
                 passwordField.setError("Пароль должен содержать 6+ символов");
             } else {
-                String email1 = emailField.getText().toString();
-                String password = passwordField.getText().toString();
-
-                Intent intent = new Intent(CreateNewAccActivity.this, NameActivity.class);
-                intent.putExtra("email", email1);
-                intent.putExtra("password", password);
-                startActivity(intent);
-                finish();
+                new Database().checkEmail(email_input, b -> {
+                    if (b) {
+                        Intent intent = new Intent(CreateNewAccActivity.this, PasswordActivity.class);
+                        intent.putExtra("email", email_input);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        if (email_input.length() == 0) {
+                            emailField.setError("Введите email!");
+                        } else {
+                            Intent intent = new Intent(CreateNewAccActivity.this, NameActivity.class);
+                            intent.putExtra("email", email_input);
+                            intent.putExtra("password", password);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
             }
         });
     }

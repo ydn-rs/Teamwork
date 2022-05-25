@@ -38,16 +38,16 @@ public class EmailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (emailField.getText().toString().length() > 0) {
-                    nextButton.setEnabled(true);
-                }
+                nextButton.setEnabled(emailField.getText().toString().length() > 0 &&
+                        emailField.getText().toString().contains("@") &&
+                        emailField.getText().toString().contains("."));
             }
         };
 
         emailField.addTextChangedListener(textWatcher);
 
         nextButton.setOnClickListener(v -> {
-            String email = emailField.getText().toString();
+            String email = emailField.getText().toString().toLowerCase().replaceAll(" ", "");
             new Database().checkEmail(email, b -> {
                 if (b) {
                     goLogin(email);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import ru.yudin_r.teamwork.models.Project;
 import ru.yudin_r.teamwork.models.User;
+import ru.yudin_r.teamwork.tools.Constants;
 import ru.yudin_r.teamwork.tools.Database;
 
 public class NameActivity extends AppCompatActivity {
@@ -53,10 +55,8 @@ public class NameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (firstNameField.getText().toString().length() > 0
-                        && secondNameField.getText().toString().length() > 0) {
-                    createNewAccButton.setEnabled(true);
-                }
+                createNewAccButton.setEnabled(firstNameField.getText().toString().length() > 0
+                        && secondNameField.getText().toString().length() > 0);
             }
         };
 
@@ -67,8 +67,8 @@ public class NameActivity extends AppCompatActivity {
     }
 
     private void createNewAcc() {
-        String firstName = firstNameField.getText().toString();
-        String secondName = secondNameField.getText().toString();
+        String firstName = firstNameField.getText().toString().replaceAll(" ", "");
+        String secondName = secondNameField.getText().toString().replaceAll(" ", "");
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(
                 task -> {
@@ -83,7 +83,6 @@ public class NameActivity extends AppCompatActivity {
                     startActivity(new Intent(NameActivity.this, MainActivity.class));
                     finish();
                 }
-        ).addOnFailureListener(e -> {
-        });
+        ).addOnFailureListener(e -> new Database().showErrorMsg(NameActivity.this, e));
     }
 }

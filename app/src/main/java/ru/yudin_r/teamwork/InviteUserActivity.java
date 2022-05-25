@@ -34,12 +34,7 @@ public class InviteUserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        inviteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inviteUser();
-            }
-        });
+        inviteButton.setOnClickListener(v -> inviteUser());
     }
 
     public void getId(String uId) {
@@ -47,7 +42,7 @@ public class InviteUserActivity extends AppCompatActivity {
     }
 
     private void inviteUser() {
-        String email = emailField.getText().toString();
+        String email = emailField.getText().toString().toLowerCase().replaceAll(" ", "");
 
         new Database().checkEmail(email, b -> {
             if (b) {
@@ -56,18 +51,17 @@ public class InviteUserActivity extends AppCompatActivity {
                 new Database().getProjectData(projectId, project -> {
                     ArrayList<String> users = project.getUsers();
                     if (users.contains(uId)) {
-                        Toast.makeText(InviteUserActivity.this, "Ошибка. Пользователь уже присутвует в этом проекте", Toast.LENGTH_SHORT)
-                                .show();
+                        new Database().showMsg(InviteUserActivity.this, "Пользователь уже присутствует в проекте");
                     } else {
                         users.add(uId);
                         project.setUsers(users);
                         new Database().updateProjectData(projectId, project);
-                        Toast.makeText(InviteUserActivity.this, "Пользователь добавлен", Toast.LENGTH_SHORT).show();
+                        new Database().showMsg(InviteUserActivity.this, "Пользователь добавлен");
+                        emailField.setText(null);
                     }
                 });
             } else {
-                Toast.makeText(InviteUserActivity.this, "Проверьте правильность ввода, пробелы", Toast.LENGTH_SHORT)
-                        .show();
+                new Database().showMsg(InviteUserActivity.this, "Пользователь не найден");
             }
         });
     }

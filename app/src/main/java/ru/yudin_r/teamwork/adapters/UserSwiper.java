@@ -2,6 +2,7 @@ package ru.yudin_r.teamwork.adapters;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -9,9 +10,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+import ru.yudin_r.teamwork.InviteUserActivity;
 import ru.yudin_r.teamwork.R;
+import ru.yudin_r.teamwork.models.Project;
 import ru.yudin_r.teamwork.models.User;
 import ru.yudin_r.teamwork.tools.Database;
+import ru.yudin_r.teamwork.tools.OnGetProject;
 
 public class UserSwiper extends ItemTouchHelper.SimpleCallback {
 
@@ -39,13 +43,19 @@ public class UserSwiper extends ItemTouchHelper.SimpleCallback {
         int position = viewHolder.getLayoutPosition();
         User user = userAdapter.getUser(position);
         String uId = user.getId();
-        if (direction == ItemTouchHelper.LEFT) {
-            new Database().getProjectData(id, project -> {
-                project.getUsers().remove(uId);
-                new Database().updateProjectData(id, project);
-                userAdapter.deleteItem(position);
-            });
-        }
+        new Database().getProjectData(id, project -> {
+            if (direction == ItemTouchHelper.LEFT) {
+                if (user.getId().equals(project.getCreatorId())) {
+                    Toast.makeText(context.getApplicationContext(),
+                                    "Ошибка. Вы создатель", Toast.LENGTH_SHORT).show();
+                    userAdapter.notifyItemChanged(position);
+                } else {
+                    project.getUsers().remove(uId);
+                    new Database().updateProjectData(id, project);
+                    userAdapter.deleteItem(position);
+                }
+            }
+        });
     }
 
     @Override
